@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class RegistrationInput {
+public class RegistrationRequest {
     public String email;
     public String password;
     public String name;

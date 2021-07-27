@@ -9,7 +9,6 @@ import java.io.Serializable;
 @Data
 public class UserEntity implements Serializable {
 
-    @Setter(AccessLevel.NONE)
     private long id;
     private String email;
     private String name;
