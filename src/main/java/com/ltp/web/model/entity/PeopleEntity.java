@@ -1,18 +1,22 @@
 package com.ltp.web.model.entity;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 
 import java.io.Serializable;
 
 @AllArgsConstructor
-@Getter
+@Data
 public class PeopleEntity implements Serializable {
     private long id;
     private String fullName;
     private long cash;
     private boolean status;
     private String photoName;
+
+    public PeopleEntity(){
+        this(-1, "", 0, false, "");
+    }
 
     @Override
     public boolean equals(Object o){

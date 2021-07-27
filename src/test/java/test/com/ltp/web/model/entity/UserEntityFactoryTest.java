@@ -1,5 +1,6 @@
 package test.com.ltp.web.model.entity;
 
+import com.ltp.web.model.entity.PeopleEntity;
 import com.ltp.web.model.entity.UserEntity;
 import org.testng.AssertJUnit;
 import org.testng.annotations.Test;
@@ -20,6 +21,21 @@ public class UserEntityFactoryTest {
                 "test",
                 "test",
                 "test",
+                "test");
+
+        AssertJUnit.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void createPeopleTest(){
+        PeopleEntity expected = new PeopleEntity();
+        expected.setFullName("test");
+        expected.setStatus(true);
+        expected.setPhotoName("test");
+
+        PeopleEntity actual = PeopleEntity.PeopleEntityFactory.createPeople("test",
+                0,
+                true,
                 "test");
 
         AssertJUnit.assertEquals(expected, actual);
