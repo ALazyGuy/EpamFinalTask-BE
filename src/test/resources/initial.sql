@@ -1,0 +1,26 @@
+CREATE SCHEMA IF NOT EXISTS interpol DEFAULT CHARACTER SET utf8 ;
+
+USE interpol ;
+
+CREATE TABLE IF NOT EXISTS interpol.user (
+    id BIGINT(255) NOT NULL AUTO_INCREMENT,
+    email VARCHAR(45) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    name VARCHAR(45) NOT NULL,
+    surname VARCHAR(45) NOT NULL,
+    middleName VARCHAR(45) NOT NULL,
+    cash BIGINT(255) NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX id_UNIQUE (`id` ASC) VISIBLE,
+    UNIQUE INDEX email_UNIQUE (`email` ASC) VISIBLE)
+    ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS interpol.people (
+    id BIGINT(255) NOT NULL AUTO_INCREMENT,
+    fullName VARCHAR(45) NOT NULL,
+    cash BIGINT(255) NOT NULL,
+    status TINYINT NOT NULL,
+    photoName VARCHAR(45) NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX id_UNIQUE (`id` ASC) VISIBLE)
+    ENGINE = InnoDB;
