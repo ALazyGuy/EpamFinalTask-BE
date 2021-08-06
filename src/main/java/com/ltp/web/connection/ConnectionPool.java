@@ -1,5 +1,6 @@
 package com.ltp.web.connection;
 
+import com.ltp.web.exception.ConnectionPoolException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,13 +40,19 @@ public class ConnectionPool {
         LOGGER.info("Connection to database established successfully");
     }
 
-    public Connection getConnection(){
+    public Connection getConnection() throws ConnectionPoolException {
+        if(freeConnections.size() == 0){
+            throw new ConnectionPoolException("No free connections");
+        }
         Connection connection = freeConnections.remove(freeConnections.size() - 1);
         busyConnections.add(connection);
         return connection;
     }
 
-    public void releaseConnection(Connection connection){
+    public void releaseConnection(Connection connection) throws ConnectionPoolException{
+        if(busyConnections.indexOf(connection) == -1 || freeConnections.size() == MAX_POOL_SIZE){
+            throw new ConnectionPoolException("Unable to release unknown connection");
+        }
         freeConnections.add(connection);
         busyConnections.remove(connection);
     }
