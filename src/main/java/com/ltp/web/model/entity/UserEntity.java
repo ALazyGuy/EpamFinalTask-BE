@@ -1,10 +1,8 @@
 package com.ltp.web.model.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class UserEntity extends AbstractEntity{
 
     private String email;
@@ -13,6 +11,21 @@ public class UserEntity extends AbstractEntity{
     private String surname;
     private String middleName;
     private Long cash;
+
+    public UserEntity(Long id, String email, String password, String name,
+                      String surname, String middleName, Long cash) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.middleName = middleName;
+        this.cash = cash;
+    }
+
+    public UserEntity(String email, String password, String name, String surname, String middleName, Long cash) {
+        this(-1L, email, password, name, surname, middleName, cash);
+    }
 
     @Override
     public boolean equals(Object o){
