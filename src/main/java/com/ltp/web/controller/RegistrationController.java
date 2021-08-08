@@ -30,13 +30,7 @@ public class RegistrationController extends HttpServlet {
             RegistrationRequest registrationRequest = JsonMapper.parseToObject(buffer.toString(), RegistrationRequest.class);
             boolean result = UserServiceImpl.getInstance().addUser(registrationRequest);
 
-            if(result){
-                resp.getWriter().write("User Created");
-                resp.setStatus(HttpServletResponse.SC_OK);
-            }else{
-                resp.getWriter().write("Error while creating user");
-                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            }
+            resp.setStatus(result ? HttpServletResponse.SC_OK : HttpServletResponse.SC_BAD_REQUEST);
         }catch(IOException e){
             LOGGER.error("Unable to read data from request [POST /user/add]");
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
