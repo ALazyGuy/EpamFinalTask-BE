@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Factories">
-    <test name="Entities">
+<suite name="Services">
+    <test name="UserService">
         <classes>
-            <class name="test.com.ltp.web.model.entity.UserEntityFactoryTest"></class>
+            <class name="test.com.ltp.web.service.impl.UserServiceImplTest"></class>
         </classes>
     </test>
 </suite>

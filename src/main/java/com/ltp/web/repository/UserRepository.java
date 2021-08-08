@@ -21,8 +21,8 @@ public class UserRepository implements AbstractRepository<UserEntity>{
             "`password`, `name`, `surname`, `middleName`, `cash` FROM `user` WHERE `id`=?";
     private static final String GET_BY_EMAIL_QUERY = "SELECT `id`, `email`, " +
             "`password`, `name`, `surname`, `middleName`, `cash` FROM `user` WHERE `email`=?";
-    private static final String CREATE_QUERY = "INSERT INTO `user` (`email`, " +
-            "`password`, `name`, `surname`, `middleName`, `cash`) " +
+    private static final String CREATE_QUERY = "INSERT INTO `user` (`password`, " +
+            "`name`, `surname`, `middleName`, `cash`, `email`) " +
             "VALUES (?, ?, ?, ?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE `user` SET `password` = ?, " +
             "`name` = ?, `surname` = ?, `middleName` = ?, `cash` = ? " +
@@ -101,6 +101,8 @@ public class UserRepository implements AbstractRepository<UserEntity>{
 
         if(hasUser){
             preparedStatement.setLong(6, userEntity.getId());
+        }else{
+            preparedStatement.setString(6, userEntity.getEmail());
         }
 
         preparedStatement.executeUpdate();

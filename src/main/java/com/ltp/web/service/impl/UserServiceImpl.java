@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
             UserEntity userEntity = UserMapper.mapToUser(registrationRequest);
             UserRepository.getInstance().save(userEntity);
             return true;
-        } catch (ConnectionPoolException e) {
+        } catch (ConnectionPoolException | SQLException e) {
             LOGGER.error(String.format("Error while creating user: {%s}", e.getMessage()));
         }finally {
             return false;
