@@ -1,12 +1,14 @@
 package com.ltp.web.model.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 @AllArgsConstructor
-@Getter
+@NoArgsConstructor
+@Data
 public class LoginRequest implements Serializable {
     private String email;
     private String password;

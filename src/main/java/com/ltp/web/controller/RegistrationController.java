@@ -36,4 +36,9 @@ public class RegistrationController extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
+
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doOptions(req, resp);
+    }
 }
