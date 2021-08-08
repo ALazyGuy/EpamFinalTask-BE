@@ -31,9 +31,9 @@ public class UserServiceImpl implements UserService {
             return true;
         } catch (ConnectionPoolException | SQLException e) {
             LOGGER.error(String.format("Error while creating user: {%s}", e.getMessage()));
-        }finally {
-            return false;
         }
+
+        return false;
     }
 
     @Override
@@ -42,9 +42,9 @@ public class UserServiceImpl implements UserService {
             return UserRepository.getInstance().getById(id);
         } catch (ConnectionPoolException | SQLException e) {
             LOGGER.error(String.format("Error while loading user with {ID: %d} user: {%s}", id, e.getMessage()));
-        }finally {
-            return Optional.empty();
         }
+
+        return Optional.empty();
     }
 
     @Override
@@ -53,9 +53,9 @@ public class UserServiceImpl implements UserService {
             return UserRepository.getInstance().getByEmail(email);
         } catch (ConnectionPoolException | SQLException e) {
             LOGGER.error(String.format("Error while loading user with {Email: %s} user: {%s}", email, e.getMessage()));
-        }finally {
-            return Optional.empty();
         }
+
+        return Optional.empty();
     }
 
     public static UserServiceImpl getInstance(){
