@@ -2,6 +2,7 @@ package com.ltp.web.service.impl;
 
 import com.ltp.web.exception.ConnectionPoolException;
 import com.ltp.web.mapper.UserMapper;
+import com.ltp.web.model.dto.LoginRequest;
 import com.ltp.web.model.dto.RegistrationRequest;
 import com.ltp.web.model.entity.UserEntity;
 import com.ltp.web.repository.UserRepository;
@@ -56,6 +57,18 @@ public class UserServiceImpl implements UserService {
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public boolean authenticate(LoginRequest loginRequest) {
+        Optional<UserEntity> user = getUserByEmail(loginRequest.getEmail());
+        if(user.isEmpty() || !user.get().getPassword().equals(loginRequest.getPassword())){
+            return false;
+        }
+
+        //TODO Add code for JWT
+
+        return true;
     }
 
     public static UserServiceImpl getInstance(){
