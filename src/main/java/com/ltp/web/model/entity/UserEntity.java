@@ -1,8 +1,10 @@
 package com.ltp.web.model.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class UserEntity extends AbstractEntity{
 
     private String email;
