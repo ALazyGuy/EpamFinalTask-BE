@@ -6,6 +6,7 @@ import com.ltp.web.model.dto.LoginRequest;
 import com.ltp.web.model.dto.RegistrationRequest;
 import com.ltp.web.model.entity.UserEntity;
 import com.ltp.web.repository.UserRepository;
+import com.ltp.web.security.SecurityContext;
 import com.ltp.web.service.UserService;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -66,7 +67,7 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
-        //TODO Add code for JWT
+        SecurityContext.getInstance().authenticate(user.get());
 
         return true;
     }
