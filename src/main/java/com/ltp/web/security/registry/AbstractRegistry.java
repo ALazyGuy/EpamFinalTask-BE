@@ -4,11 +4,10 @@ import com.ltp.web.exception.RegistryException;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 public abstract class AbstractRegistry <K, V>{
 
-    private Map<K, V[]> registries;
+    protected Map<K, V[]> registries;
 
     public AbstractRegistry(){
         registries = new HashMap<>();
@@ -26,5 +25,5 @@ public abstract class AbstractRegistry <K, V>{
         return registries.containsKey(key);
     }
 
-    public abstract boolean validate(K key, V value);
+    public abstract boolean validate(K key, V value) throws RegistryException;
 }
