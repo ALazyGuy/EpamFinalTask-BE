@@ -1,7 +1,9 @@
 package com.ltp.web.listener;
 
 import com.ltp.web.connection.ConnectionPool;
+import com.ltp.web.exception.RegistryException;
 import com.ltp.web.security.SecurityContext;
+import com.ltp.web.security.registry.RolesRegistry;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
@@ -19,6 +21,13 @@ public class InitializationListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         ServletContextListener.super.contextInitialized(sce);
         ConnectionPool.getInstance();
+        try {
+            RolesRegistry.getInstance().create("SHARED", new String[]{
+                "/user/current"
+            });
+        } catch (RegistryException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

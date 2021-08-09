@@ -29,11 +29,8 @@ public class SecurityContext {
     }
 
     public boolean tryGetAccess(String mapping) throws RegistryException {
-        if(!authenticated){
-            return false;
-        }
-
-        return RolesRegistry.getInstance().validate(current.getRole().name(), mapping);
+        String role = (authenticated ? current.getRole().name() : "SHARED");
+        return RolesRegistry.getInstance().validate(role, mapping);
     }
 
     public static SecurityContext getInstance(){
