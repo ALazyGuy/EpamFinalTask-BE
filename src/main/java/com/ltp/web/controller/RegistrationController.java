@@ -1,8 +1,10 @@
 package com.ltp.web.controller;
 
 import com.ltp.web.mapper.JsonMapper;
+import com.ltp.web.model.dto.JwtResponse;
 import com.ltp.web.model.dto.RegistrationRequest;
 import com.ltp.web.service.impl.UserServiceImpl;
+import com.ltp.web.util.JWTUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -31,6 +33,13 @@ public class RegistrationController extends HttpServlet {
             boolean result = UserServiceImpl.getInstance().addUser(registrationRequest);
 
             resp.setStatus(result ? HttpServletResponse.SC_OK : HttpServletResponse.SC_BAD_REQUEST);
+
+            if(result){
+                resp.setContentType("application/json");
+                JwtResponse jwtResponse = new JwtResponse(JWTUtil.generate(registrationRequest.getEmail()));
+                resp.getWriter().write(JsonMapper.parseToString(jwtResponse));
+            }
+
         }catch(IOException e){
             LOGGER.error("Unable to read data from request [POST /user/add]");
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
