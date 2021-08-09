@@ -1,5 +1,8 @@
 package com.ltp.web.filter;
 
+import com.ltp.web.exception.RegistryException;
+import com.ltp.web.security.SecurityContext;
+import com.ltp.web.security.registry.RolesRegistry;
 import com.ltp.web.service.impl.UserServiceImpl;
 import com.ltp.web.util.JWTUtil;
 import jakarta.servlet.*;
@@ -15,6 +18,8 @@ public class JwtFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         String token = ((HttpServletRequest)servletRequest).getHeader("token");
+
+        String role = "SHARED";
 
         if(token != null){
 
@@ -33,6 +38,17 @@ public class JwtFilter implements Filter {
             }
 
             UserServiceImpl.getInstance().authenticate(email);
+            role = SecurityContext.getInstance().getAuthenticated().get().getRole().name();
+        }
+
+        String currentContext = ((HttpServletRequest) servletRequest).getServletPath();
+        try {
+            if(!RolesRegistry.getInstance().validate(role, currentContext)){
+                ((HttpServletResponse)servletResponse).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+        } catch (RegistryException e) {
+            e.printStackTrace();
         }
 
         filterChain.doFilter(servletRequest, servletResponse);
