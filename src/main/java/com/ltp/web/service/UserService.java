@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface UserService {
     boolean addUser(RegistrationRequest registrationRequest);
     boolean authenticate(LoginRequest loginRequest);
+    boolean authenticate(String email, String password);
     Optional<UserEntity> getUserById(Long id);
     Optional<UserEntity> getUserByEmail(String email);
 }

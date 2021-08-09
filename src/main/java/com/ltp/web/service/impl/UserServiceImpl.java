@@ -62,8 +62,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean authenticate(LoginRequest loginRequest) {
-        Optional<UserEntity> user = getUserByEmail(loginRequest.getEmail());
-        if(user.isEmpty() || !user.get().getPassword().equals(loginRequest.getPassword())){
+        return authenticate(loginRequest.getEmail(), loginRequest.getPassword());
+    }
+
+    @Override
+    public boolean authenticate(String email, String password) {
+        Optional<UserEntity> user = getUserByEmail(email);
+        if(user.isEmpty() || !user.get().getPassword().equals(password)){
             return false;
         }
 
