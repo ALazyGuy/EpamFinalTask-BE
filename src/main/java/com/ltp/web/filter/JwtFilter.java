@@ -17,6 +17,12 @@ public class JwtFilter implements Filter {
         String token = ((HttpServletRequest)servletRequest).getHeader("token");
 
         if(token != null){
+
+            if(!token.startsWith("JWT")){
+                ((HttpServletResponse)servletResponse).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+
             token = token.substring(3);
             String email = JWTUtil.getEmail(token);
             boolean result = JWTUtil.validate(token, email);

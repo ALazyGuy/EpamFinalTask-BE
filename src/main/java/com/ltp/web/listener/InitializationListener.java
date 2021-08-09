@@ -2,7 +2,6 @@ package com.ltp.web.listener;
 
 import com.ltp.web.connection.ConnectionPool;
 import com.ltp.web.exception.RegistryException;
-import com.ltp.web.security.SecurityContext;
 import com.ltp.web.security.registry.RolesRegistry;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
