@@ -1,5 +1,7 @@
 package com.ltp.web.security.registry;
 
+import com.ltp.web.exception.RegistryException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -14,10 +16,9 @@ public class AbstractRegistry <K, V>{
         this.condition = condition;
     }
 
-    void create(K key, V value){
+    void create(K key, V value) throws RegistryException {
         if(contains(key)){
-            //TODO Add exception
-            return;
+            throw new RegistryException(String.format("Registry with key `%s` is already exists", key.toString()));
         }
 
         registries.put(key, value);
