@@ -4,19 +4,17 @@ import com.ltp.web.exception.RegistryException;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Predicate;
+import java.util.function.Function;
 
-public class AbstractRegistry <K, V>{
+public abstract class AbstractRegistry <K, V>{
 
-    private Map<K, V> registries;
-    private Predicate<V> condition;
+    private Map<K, V[]> registries;
 
-    public AbstractRegistry(Predicate<V> condition){
+    public AbstractRegistry(){
         registries = new HashMap<>();
-        this.condition = condition;
     }
 
-    void create(K key, V value) throws RegistryException {
+    public void create(K key, V[] value) throws RegistryException {
         if(contains(key)){
             throw new RegistryException(String.format("Registry with key `%s` is already exists", key.toString()));
         }
@@ -24,15 +22,9 @@ public class AbstractRegistry <K, V>{
         registries.put(key, value);
     }
 
-    boolean contains(K key){
+    public boolean contains(K key){
         return registries.containsKey(key);
     }
 
-    boolean validate(K key, V value){
-        if(!contains(key)){
-            return false;
-        }
-
-        return condition.test(registries.get(key));
-    }
+    public abstract boolean validate(K key, V value);
 }
