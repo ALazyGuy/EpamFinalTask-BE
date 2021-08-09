@@ -13,9 +13,10 @@ public class UserEntity extends AbstractEntity{
     private String surname;
     private String middleName;
     private Long cash;
+    private UserRole role;
 
     public UserEntity(Long id, String email, String password, String name,
-                      String surname, String middleName, Long cash) {
+                      String surname, String middleName, Long cash, UserRole role) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -23,10 +24,11 @@ public class UserEntity extends AbstractEntity{
         this.surname = surname;
         this.middleName = middleName;
         this.cash = cash;
+        this.role = role;
     }
 
-    public UserEntity(String email, String password, String name, String surname, String middleName, Long cash) {
-        this(-1L, email, password, name, surname, middleName, cash);
+    public UserEntity(String email, String password, String name, String surname, String middleName, Long cash, UserRole role) {
+        this(-1L, email, password, name, surname, middleName, cash, role);
     }
 
     @Override
@@ -42,22 +44,23 @@ public class UserEntity extends AbstractEntity{
                 (this.surname.equals(current.getSurname())) &&
                 (this.middleName.equals(current.getMiddleName())) &&
                 (this.id == current.getId()) &&
-                (this.cash == current.getCash());
+                (this.cash == current.getCash()) &&
+                (this.role == current.getRole());
     }
 
     @Override
     public int hashCode(){
         int result = email.hashCode() + password.hashCode();
         result += 3 * name.hashCode() + 7 * surname.hashCode();
-        result += 11 * middleName.hashCode() + cash + id * 5;
+        result += 11 * middleName.hashCode() + cash + id * 5 + 161 * (role == UserRole.ROLE_USER ? 0 : 1);
         return result;
     }
 
     @Override
     public String toString(){
         return String.format("UserEntity[ID: `%d`, Email: `%s`, Password: `%s`, Name: `%s`," +
-                " Surname: `%s`, Middle Name: `%s`, Cash: `%d`]",
-                id, email, password, name, surname, middleName, cash);
+                " Surname: `%s`, Middle Name: `%s`, Cash: `%d`, Role: `%s`]",
+                id, email, password, name, surname, middleName, cash, role.name());
     }
 
 }

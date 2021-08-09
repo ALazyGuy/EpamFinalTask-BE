@@ -2,6 +2,7 @@ package com.ltp.web.mapper;
 
 import com.ltp.web.model.dto.RegistrationRequest;
 import com.ltp.web.model.entity.UserEntity;
+import com.ltp.web.model.entity.UserRole;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +14,7 @@ public class UserMapper {
                 registrationRequest.getPassword(),
                 registrationRequest.getName(),
                 registrationRequest.getSurname(),
-                registrationRequest.getMiddleName(), 0L);
+                registrationRequest.getMiddleName(), 0L, UserRole.ROLE_USER);
     }
 
 }

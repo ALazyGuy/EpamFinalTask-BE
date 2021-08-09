@@ -3,6 +3,7 @@ package com.ltp.web.repository;
 import com.ltp.web.connection.ConnectionPool;
 import com.ltp.web.exception.ConnectionPoolException;
 import com.ltp.web.model.entity.UserEntity;
+import com.ltp.web.model.entity.UserRole;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,18 +15,18 @@ import java.util.Optional;
 
 public class UserRepository implements AbstractRepository<UserEntity>{
 
-    private static final String DELETE_QUERY = "DELETE FROM `user` WHERE `id` = ?";
+    private static final String DELETE_QUERY = "DELETE FROM `interpol`.`user` WHERE `id` = ?";
     private static final String GET_ALL_QUERY = "SELECT `id`, `email`, " +
-            "`password`, `name`, `surname`, `middleName`, `cash` FROM `user`";
+            "`password`, `name`, `surname`, `middleName`, `cash`, `role` FROM `interpol`.`user`";
     private static final String GET_BY_ID_QUERY = "SELECT `id`, `email`, " +
-            "`password`, `name`, `surname`, `middleName`, `cash` FROM `user` WHERE `id`=?";
+            "`password`, `name`, `surname`, `middleName`, `cash`, `role` FROM `interpol`.`user` WHERE `id`=?";
     private static final String GET_BY_EMAIL_QUERY = "SELECT `id`, `email`, " +
-            "`password`, `name`, `surname`, `middleName`, `cash` FROM `user` WHERE `email`=?";
-    private static final String CREATE_QUERY = "INSERT INTO `user` (`password`, " +
-            "`name`, `surname`, `middleName`, `cash`, `email`) " +
-            "VALUES (?, ?, ?, ?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE `user` SET `password` = ?, " +
-            "`name` = ?, `surname` = ?, `middleName` = ?, `cash` = ? " +
+            "`password`, `name`, `surname`, `middleName`, `cash`, `role` FROM `interpol`.`user` WHERE `email`=?";
+    private static final String CREATE_QUERY = "INSERT INTO `interpol`.`user` (`password`, " +
+            "`name`, `surname`, `middleName`, `cash`, `role`, `email`) " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_QUERY = "UPDATE `interpol`.`user` SET `password` = ?, " +
+            "`name` = ?, `surname` = ?, `middleName` = ?, `cash` = ?, `role` = ? " +
             "WHERE `id` = ?";
 
     private UserRepository(){}
@@ -98,11 +99,12 @@ public class UserRepository implements AbstractRepository<UserEntity>{
         preparedStatement.setString(3, userEntity.getSurname());
         preparedStatement.setString(4, userEntity.getMiddleName());
         preparedStatement.setLong(5, userEntity.getCash());
+        preparedStatement.setString(6, userEntity.getRole().name());
 
         if(hasUser){
-            preparedStatement.setLong(6, userEntity.getId());
+            preparedStatement.setLong(7, userEntity.getId());
         }else{
-            preparedStatement.setString(6, userEntity.getEmail());
+            preparedStatement.setString(7, userEntity.getEmail());
         }
 
         preparedStatement.executeUpdate();
@@ -120,8 +122,9 @@ public class UserRepository implements AbstractRepository<UserEntity>{
                 middleName = resultSet.getString("middleName");
         Long id = resultSet.getLong("id"),
                 cash = resultSet.getLong("cash");
+        UserRole role = UserRole.valueOf(resultSet.getString("role"));
 
-        return new UserEntity(id, email, password, name, surname, middleName, cash);
+        return new UserEntity(id, email, password, name, surname, middleName, cash, role);
     }
 
     public static UserRepository getInstance(){

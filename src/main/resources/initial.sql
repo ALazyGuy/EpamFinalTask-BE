@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS interpol.user (
     surname VARCHAR(45) NOT NULL,
     middleName VARCHAR(45) NOT NULL,
     cash BIGINT(255) NULL,
+    role VARCHAR(45) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE INDEX id_UNIQUE (`id` ASC) VISIBLE,
     UNIQUE INDEX email_UNIQUE (`email` ASC) VISIBLE)
