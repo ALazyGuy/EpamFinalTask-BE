@@ -66,6 +66,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean authenticate(String email) {
+        Optional<UserEntity> user = getUserByEmail(email);
+        if(user.isEmpty()){
+            return false;
+        }
+
+        SecurityContext.getInstance().authenticate(user.get());
+
+        return true;
+    }
+
+    @Override
     public boolean authenticate(String email, String password) {
         Optional<UserEntity> user = getUserByEmail(email);
         if(user.isEmpty() || !user.get().getPassword().equals(password)){

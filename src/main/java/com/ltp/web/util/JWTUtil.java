@@ -36,7 +36,7 @@ public class JWTUtil {
         return (!isExpired(token) && getClaim(token, Claims::getSubject).equals(email));
     }
 
-    public static String getUsername(String token){
+    public static String getEmail(String token){
         return getClaim(token, Claims::getSubject);
     }
 }

@@ -10,6 +10,7 @@ public interface UserService {
     boolean addUser(RegistrationRequest registrationRequest);
     boolean authenticate(LoginRequest loginRequest);
     boolean authenticate(String email, String password);
+    boolean authenticate(String email);
     Optional<UserEntity> getUserById(Long id);
     Optional<UserEntity> getUserByEmail(String email);
 }

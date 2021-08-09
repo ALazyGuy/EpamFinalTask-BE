@@ -23,5 +23,6 @@ public class CurrentUserController extends HttpServlet {
         resp.setContentType("application/json");
         UserInfo responseUser = current.map(UserInfo::new).get();
         resp.getWriter().write(JsonMapper.parseToString(responseUser));
+        SecurityContext.getInstance().deauthenticate();
     }
 }

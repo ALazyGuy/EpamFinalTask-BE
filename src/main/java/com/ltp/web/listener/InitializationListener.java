@@ -23,17 +23,22 @@ public class InitializationListener implements ServletContextListener {
         ConnectionPool.getInstance();
         try {
             RolesRegistry.getInstance().create("SHARED", new String[]{
-                "/user/current"
+                    "user/add", "user/auth"
+            });
+            RolesRegistry.getInstance().create("ROLE_USER", new String[]{
+                    "user/current"
+            });
+            RolesRegistry.getInstance().create("ROLE_ADMIN", new String[]{
+                    "user/current"
             });
         } catch (RegistryException e) {
-            e.printStackTrace();
+            LOGGER.error(String.format("Unable to create registry [%s]", e.getMessage()));
         }
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         ServletContextListener.super.contextDestroyed(sce);
-        SecurityContext.getInstance().deauthenticate();
         try {
             ConnectionPool.getInstance().closeAll();
         } catch (SQLException e) {
