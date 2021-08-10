@@ -18,11 +18,13 @@ import java.util.Optional;
 public class PeopleRepository implements AbstractRepository<PeopleEntity> {
 
     private static final String DELETE_QUERY = "DELETE FROM `interpol`.`people` WHERE `id`=?";
-    private static final String GET_ALL_QUERY = "SELECT (`id`, `fullName`, `cash`, `status`, `photoName`) from interpol.people";
-    private static final String GET_BY_ID_QUERY = "SELECT (`id`, `fullName`, `cash`, `status`, `photoName`) from interpol.people WHERE `id`=?";
+    private static final String GET_ALL_QUERY = "SELECT (`id`, `fullName`, `cash`, `status`, `photoName`) from `interpol`.`people`";
+    private static final String GET_BY_ID_QUERY = "SELECT (`id`, `fullName`, `cash`, `status`, `photoName`) from `interpol`.`people` WHERE `id`=?";
     private static final String CREATE_QUERY = "INSERT INTO `interpol`.`people` (`fullName`, `cash`, `status`, `photoName`) VALUES" +
             " (?, ?, ?, ?)";
     private static final String UPDATE_QUERY = " UPDATE `interpol`.`people` SET `fullName`=?, `cash`=?, `status`=?, `photoName`=? WHERE `id`=?";
+    private static final String SEARCH_QUERY = "SELECT (`id`, `fullName`, `cash`, `status`, `photoName`) from `interpol`.`people` " +
+            "WHERE `fullName` LIKE ?";
 
     @Override
     public void remove(PeopleEntity peopleEntity) throws ConnectionPoolException, SQLException {
@@ -85,6 +87,24 @@ public class PeopleRepository implements AbstractRepository<PeopleEntity> {
         ConnectionPool.getInstance().releaseConnection(connection);
 
         return (hasPeople ? Optional.of(peopleEntity) : getById(peopleEntity.getId()));
+    }
+
+    public List<PeopleEntity> searchByFullName(String fullName) throws ConnectionPoolException, SQLException {
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SEARCH_QUERY);
+        preparedStatement.setString(1, String.format("%%%s%%", fullName));
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        List<PeopleEntity> result = new LinkedList<>();
+
+        while(resultSet.next()){
+            result.add(mapToPeople(resultSet));
+        }
+
+        ConnectionPool.getInstance().releaseConnection(connection);
+
+        return result;
     }
 
     private PeopleEntity mapToPeople(ResultSet resultSet) throws SQLException {
