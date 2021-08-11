@@ -1,6 +1,7 @@
 package com.ltp.web.controller;
 
 import com.ltp.web.mapper.JsonMapper;
+import com.ltp.web.mapper.ServletRequestMapper;
 import com.ltp.web.model.dto.JwtResponse;
 import com.ltp.web.model.dto.RegistrationRequest;
 import com.ltp.web.service.impl.UserServiceImpl;
@@ -23,13 +24,7 @@ public class RegistrationController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try{
-            StringBuilder buffer = new StringBuilder();
-            String s;
-            while((s = req.getReader().readLine()) != null){
-                buffer.append(s);
-            }
-
-            RegistrationRequest registrationRequest = JsonMapper.parseToObject(buffer.toString(), RegistrationRequest.class);
+            RegistrationRequest registrationRequest = ServletRequestMapper.mapToObject(req, RegistrationRequest.class);
             boolean result = UserServiceImpl.getInstance().addUser(registrationRequest);
 
             resp.setStatus(result ? HttpServletResponse.SC_OK : HttpServletResponse.SC_BAD_REQUEST);
