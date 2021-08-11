@@ -1,4 +1,4 @@
-package com.ltp.web.connection;
+package com.ltp.web.controller;
 
 import com.ltp.web.exception.ConnectionPoolException;
 import com.ltp.web.mapper.JsonMapper;
