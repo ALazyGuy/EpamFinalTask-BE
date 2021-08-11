@@ -1,15 +1,31 @@
 package com.ltp.web.security.registry;
 
 import com.ltp.web.exception.RegistryException;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class RolesRegistry extends AbstractRegistry<String, String>{
+public class RolesRegistry {
 
-    @Override
+    protected Map<String, String[]> registries;
+
+    private RolesRegistry(){
+        registries = new HashMap<>();
+    }
+
+    public void create(String key, String[] value) throws RegistryException {
+        if(contains(key)){
+            throw new RegistryException(String.format("Registry with key `%s` is already exists", key));
+        }
+
+        registries.put(key, value);
+    }
+
+    public boolean contains(String key){
+        return registries.containsKey(key);
+    }
+
     public boolean validate(String key, String value) throws RegistryException {
         if(!contains(key)){
             throw new RegistryException(String.format("No registry found with key `%s`", key));

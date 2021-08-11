@@ -14,6 +14,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -21,15 +23,16 @@ import java.sql.SQLException;
 @WebServlet("/people/add")
 public class PeopleAddController extends HttpServlet {
 
+    private static final Logger LOGGER = LogManager.getLogger(PeopleAddController.class);
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             PeopleAddRequest peopleAddRequest = ServletRequestMapper.mapToObject(req, PeopleAddRequest.class);
             PeopleServiceImpl.getInstance().addPeople(peopleAddRequest);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (ConnectionPoolException e) {
-            e.printStackTrace();
+        } catch (SQLException | ConnectionPoolException e) {
+            LOGGER.error("Unable save people [POST /people/add]");
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 }

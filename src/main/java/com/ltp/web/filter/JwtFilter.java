@@ -9,11 +9,15 @@ import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
 @WebFilter("/*")
 public class JwtFilter implements Filter {
+
+    private static final Logger LOGGER = LogManager.getLogger(JwtFilter.class);
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -48,7 +52,7 @@ public class JwtFilter implements Filter {
                 return;
             }
         } catch (RegistryException e) {
-            e.printStackTrace();
+            LOGGER.error(String.format("Registry error -> %s", e.getMessage()));
         }
 
         filterChain.doFilter(servletRequest, servletResponse);
