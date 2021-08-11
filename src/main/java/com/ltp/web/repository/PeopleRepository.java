@@ -18,12 +18,12 @@ import java.util.Optional;
 public class PeopleRepository implements AbstractRepository<PeopleEntity> {
 
     private static final String DELETE_QUERY = "DELETE FROM `interpol`.`people` WHERE `id`=?";
-    private static final String GET_ALL_QUERY = "SELECT (`id`, `fullName`, `cash`, `status`, `photoName`) from `interpol`.`people`";
-    private static final String GET_BY_ID_QUERY = "SELECT (`id`, `fullName`, `cash`, `status`, `photoName`) from `interpol`.`people` WHERE `id`=?";
+    private static final String GET_ALL_QUERY = "SELECT `id`, `fullName`, `cash`, `status`, `photoName` from `interpol`.`people`";
+    private static final String GET_BY_ID_QUERY = "SELECT `id`, `fullName`, `cash`, `status`, `photoName` from `interpol`.`people` WHERE `id`=?";
     private static final String CREATE_QUERY = "INSERT INTO `interpol`.`people` (`fullName`, `cash`, `status`, `photoName`) VALUES" +
             " (?, ?, ?, ?)";
     private static final String UPDATE_QUERY = " UPDATE `interpol`.`people` SET `fullName`=?, `cash`=?, `status`=?, `photoName`=? WHERE `id`=?";
-    private static final String SEARCH_QUERY = "SELECT (`id`, `fullName`, `cash`, `status`, `photoName`) from `interpol`.`people` " +
+    private static final String SEARCH_QUERY = "SELECT `id`, `fullName`, `cash`, `status`, `photoName` FROM `interpol`.`people` " +
             "WHERE `fullName` LIKE ?";
 
     @Override

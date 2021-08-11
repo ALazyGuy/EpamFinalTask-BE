@@ -6,4 +6,9 @@
             <class name="test.com.ltp.web.service.impl.UserServiceImplTest"></class>
         </classes>
     </test>
+    <test name="PeopleService">
+        <classes>
+            <class name="test.com.ltp.web.service.impl.PeopleServiceImplTest"></class>
+        </classes>
+    </test>
 </suite>

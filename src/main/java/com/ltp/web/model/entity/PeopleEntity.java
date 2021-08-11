@@ -33,7 +33,8 @@ public class PeopleEntity extends AbstractEntity{
         return (this.fullName.equals(current.getFullName())) &&
                 (this.id == current.getId()) &&
                 (this.cash == current.getCash()) &&
-                (this.photoName == current.getPhotoName());
+                (this.status == current.isStatus()) &&
+                (this.photoName.equals(current.getPhotoName()));
     }
 
     @Override
