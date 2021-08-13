@@ -31,6 +31,11 @@ public class JwtFilter implements Filter {
             return;
         }
 
+        if(((HttpServletRequest) servletRequest).getServletPath().startsWith("/static/")){
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
+
         String token = ((HttpServletRequest)servletRequest).getHeader("token");
 
         String role = "SHARED";

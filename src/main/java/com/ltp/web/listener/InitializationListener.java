@@ -22,19 +22,19 @@ public class InitializationListener implements ServletContextListener {
         ConnectionPool.getInstance();
         try {
             RolesRegistry.getInstance().create("SHARED", new String[]{
-                    "/user/add", "/user/auth"
+                    "/user/add", "/user/auth",
             });
             RolesRegistry.getInstance().create("ROLE_USER", new String[]{
                     "/user/current", "/people/add",
                     "/people/remove", "/people/getAll",
                     "/people/found", "/people/search",
-                    "/people/getById"
+                    "/people/getById", "/people/photo"
             });
             RolesRegistry.getInstance().create("ROLE_ADMIN", new String[]{
                     "/user/current", "/people/add",
                     "/people/remove", "/people/getAll",
                     "/people/found", "/people/search",
-                    "/people/getById"
+                    "/people/getById", "/people/photo"
             });
         } catch (RegistryException e) {
             LOGGER.error(String.format("Unable to create registry [%s]", e.getMessage()));
