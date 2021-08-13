@@ -56,6 +56,11 @@ public class PeopleServiceImpl implements PeopleService {
         PeopleRepository.getInstance().save(people);
     }
 
+    @Override
+    public Optional<PeopleEntity> getById(Long id) throws SQLException, ConnectionPoolException {
+        return PeopleRepository.getInstance().getById(id);
+    }
+
     public static PeopleServiceImpl getInstance(){
         return PeopleServiceImplHolder.INSTANCE;
     }
