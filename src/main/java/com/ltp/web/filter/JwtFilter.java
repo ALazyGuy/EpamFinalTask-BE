@@ -21,6 +21,16 @@ public class JwtFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+
+        ((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Headers", "*");
+        ((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Origin", "*");
+        ((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Methods","GET, OPTIONS, PUT, POST, DELETE, HEAD");
+
+        if (((HttpServletRequest)servletRequest).getMethod().equals("OPTIONS")) {
+            ((HttpServletResponse)servletResponse).setStatus(HttpServletResponse.SC_ACCEPTED);
+            return;
+        }
+
         String token = ((HttpServletRequest)servletRequest).getHeader("token");
 
         String role = "SHARED";
