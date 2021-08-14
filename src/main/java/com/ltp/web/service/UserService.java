@@ -13,4 +13,5 @@ public interface UserService {
     boolean authenticate(String email);
     Optional<UserEntity> getUserById(Long id);
     Optional<UserEntity> getUserByEmail(String email);
+    boolean addCash(Long peopleId);
 }

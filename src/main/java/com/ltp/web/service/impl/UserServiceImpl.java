@@ -4,6 +4,7 @@ import com.ltp.web.exception.ConnectionPoolException;
 import com.ltp.web.mapper.UserMapper;
 import com.ltp.web.model.dto.LoginRequest;
 import com.ltp.web.model.dto.RegistrationRequest;
+import com.ltp.web.model.entity.PeopleEntity;
 import com.ltp.web.model.entity.UserEntity;
 import com.ltp.web.repository.UserRepository;
 import com.ltp.web.security.SecurityContext;
@@ -85,6 +86,30 @@ public class UserServiceImpl implements UserService {
         }
 
         SecurityContext.getInstance().authenticate(user.get());
+
+        return true;
+    }
+
+    @Override
+    public boolean addCash(Long peopleId) {
+        UserEntity current = null;
+
+        try {
+            Optional<UserEntity> currentOpt = SecurityContext.getInstance().getAuthenticated();
+            if (currentOpt.isEmpty()) {
+                return false;
+            }
+
+            PeopleEntity peopleEntity = PeopleServiceImpl.getInstance().getById(peopleId).get();
+
+            current = currentOpt.get();
+            current.setCash(current.getCash() + peopleEntity.getCash());
+
+            UserRepository.getInstance().save(current);
+        }catch(ConnectionPoolException | SQLException e){
+            LOGGER.error(String.format("Error while adding cash to user %s", current.toString()));
+            return false;
+        }
 
         return true;
     }

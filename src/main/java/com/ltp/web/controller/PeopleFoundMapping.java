@@ -2,6 +2,7 @@ package com.ltp.web.controller;
 
 import com.ltp.web.exception.ConnectionPoolException;
 import com.ltp.web.service.impl.PeopleServiceImpl;
+import com.ltp.web.service.impl.UserServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -30,6 +31,8 @@ public class PeopleFoundMapping extends HttpServlet {
 
             Long id = Long.valueOf(idParam);
             PeopleServiceImpl.getInstance().changeStatus(id);
+
+            UserServiceImpl.getInstance().addCash(id);
         } catch (SQLException | ConnectionPoolException e) {
             LOGGER.error("Unable to read data from request [PUT /people/found]");
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
