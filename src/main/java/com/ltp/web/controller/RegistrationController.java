@@ -6,6 +6,7 @@ import com.ltp.web.model.dto.JwtResponse;
 import com.ltp.web.model.dto.RegistrationRequest;
 import com.ltp.web.service.impl.UserServiceImpl;
 import com.ltp.web.util.JWTUtil;
+import com.ltp.web.validator.AuthValidator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -25,6 +26,12 @@ public class RegistrationController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try{
             RegistrationRequest registrationRequest = ServletRequestMapper.mapToObject(req, RegistrationRequest.class);
+
+            if(!AuthValidator.validateRegistration(registrationRequest)){
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+
             boolean result = UserServiceImpl.getInstance().addUser(registrationRequest);
 
             resp.setStatus(result ? HttpServletResponse.SC_OK : HttpServletResponse.SC_BAD_REQUEST);

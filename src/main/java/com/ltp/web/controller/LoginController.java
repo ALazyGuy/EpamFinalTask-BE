@@ -6,6 +6,7 @@ import com.ltp.web.model.dto.JwtResponse;
 import com.ltp.web.model.dto.LoginRequest;
 import com.ltp.web.service.impl.UserServiceImpl;
 import com.ltp.web.util.JWTUtil;
+import com.ltp.web.validator.AuthValidator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -25,6 +26,12 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try{
             LoginRequest loginRequest = ServletRequestMapper.mapToObject(req, LoginRequest.class);
+
+            if(!AuthValidator.validateLogin(loginRequest)){
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+
             boolean result = UserServiceImpl.getInstance().authenticate(loginRequest);
 
             resp.setStatus(result ? HttpServletResponse.SC_OK : HttpServletResponse.SC_UNAUTHORIZED);
