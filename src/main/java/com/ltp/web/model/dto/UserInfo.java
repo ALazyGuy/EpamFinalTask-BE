@@ -12,6 +12,7 @@ public class UserInfo {
     private String surname;
     private String middleName;
     private Long cash;
+    private String role;
 
     public UserInfo(UserEntity userEntity){
         this.email = userEntity.getEmail();
@@ -19,5 +20,6 @@ public class UserInfo {
         this.surname = userEntity.getSurname();
         this.middleName = userEntity.getMiddleName();
         this.cash = userEntity.getCash();
+        this.role = userEntity.getRole().name();
     }
 }
