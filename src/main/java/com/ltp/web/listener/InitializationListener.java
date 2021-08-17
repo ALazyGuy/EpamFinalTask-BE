@@ -26,7 +26,7 @@ public class InitializationListener implements ServletContextListener {
             });
             RolesRegistry.getInstance().create("ROLE_USER", new String[]{
                     "/user/current", "/people/add",
-                    "/people/remove", "/people/getAll",
+                    "/people/getAll",
                     "/people/found", "/people/search",
                     "/people/getById", "/people/photo"
             });
