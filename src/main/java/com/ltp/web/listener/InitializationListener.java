@@ -45,7 +45,7 @@ public class InitializationListener implements ServletContextListener {
     public void contextDestroyed(ServletContextEvent sce) {
         ServletContextListener.super.contextDestroyed(sce);
         try {
-            ConnectionPool.getInstance().closeAll();
+            ConnectionPool.getInstance().destroy();
         } catch (SQLException e) {
             LOGGER.error("Unable to close connections");
         }
