@@ -18,12 +18,12 @@ import java.util.Optional;
 public class PeopleRepository implements AbstractRepository<PeopleEntity> {
 
     private static final String DELETE_QUERY = "DELETE FROM `interpol`.`people` WHERE `id`=?";
-    private static final String GET_ALL_QUERY = "SELECT `id`, `fullName`, `cash`, `status`, `photoName` from `interpol`.`people`";
-    private static final String GET_BY_ID_QUERY = "SELECT `id`, `fullName`, `cash`, `status`, `photoName` from `interpol`.`people` WHERE `id`=?";
-    private static final String CREATE_QUERY = "INSERT INTO `interpol`.`people` (`fullName`, `cash`, `status`, `photoName`) VALUES" +
-            " (?, ?, ?, ?)";
-    private static final String UPDATE_QUERY = " UPDATE `interpol`.`people` SET `fullName`=?, `cash`=?, `status`=?, `photoName`=? WHERE `id`=?";
-    private static final String SEARCH_QUERY = "SELECT `id`, `fullName`, `cash`, `status`, `photoName` FROM `interpol`.`people` " +
+    private static final String GET_ALL_QUERY = "SELECT `id`, `authorId`, `fullName`, `cash`, `status`, `photoName` from `interpol`.`people`";
+    private static final String GET_BY_ID_QUERY = "SELECT `id`, `authorId`, `fullName`, `cash`, `status`, `photoName` from `interpol`.`people` WHERE `id`=?";
+    private static final String CREATE_QUERY = "INSERT INTO `interpol`.`people` (`authorId`, `fullName`, `cash`, `status`, `photoName`) VALUES" +
+            " (?, ?, ?, ?, ?)";
+    private static final String UPDATE_QUERY = " UPDATE `interpol`.`people` SET `authorId`=?, `fullName`=?, `cash`=?, `status`=?, `photoName`=? WHERE `id`=?";
+    private static final String SEARCH_QUERY = "SELECT `id`, `authorId`, `fullName`, `cash`, `status`, `photoName` FROM `interpol`.`people` " +
             "WHERE `fullName` LIKE ?";
 
     @Override
@@ -73,13 +73,14 @@ public class PeopleRepository implements AbstractRepository<PeopleEntity> {
         boolean hasPeople = getById(peopleEntity.getId()).isPresent();
         Connection connection = ConnectionPool.getInstance().getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(hasPeople ? UPDATE_QUERY : CREATE_QUERY);
-        preparedStatement.setString(1, peopleEntity.getFullName());
-        preparedStatement.setLong(2, peopleEntity.getCash());
-        preparedStatement.setBoolean(3, peopleEntity.isStatus());
-        preparedStatement.setString(4, peopleEntity.getPhotoName());
+        preparedStatement.setLong(1, peopleEntity.getAuthorId());
+        preparedStatement.setString(2, peopleEntity.getFullName());
+        preparedStatement.setLong(3, peopleEntity.getCash());
+        preparedStatement.setBoolean(4, peopleEntity.isStatus());
+        preparedStatement.setString(5, peopleEntity.getPhotoName());
 
         if(hasPeople){
-            preparedStatement.setLong(5, peopleEntity.getId());
+            preparedStatement.setLong(6, peopleEntity.getId());
         }
 
         preparedStatement.executeUpdate();
@@ -109,12 +110,13 @@ public class PeopleRepository implements AbstractRepository<PeopleEntity> {
 
     private PeopleEntity mapToPeople(ResultSet resultSet) throws SQLException {
         Long id = resultSet.getLong("id"),
+                authorId = resultSet.getLong("authorId"),
                 cash = resultSet.getLong("cash");
         String fullName = resultSet.getString("fullName"),
                 photoName = resultSet.getString("photoName");
         boolean status = resultSet.getBoolean("status");
 
-        return new PeopleEntity(id, fullName, cash, status, photoName);
+        return new PeopleEntity(id, authorId, fullName, cash, status, photoName);
     }
 
     public static PeopleRepository getInstance(){

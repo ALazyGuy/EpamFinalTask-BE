@@ -2,6 +2,7 @@ package com.ltp.web.mapper;
 
 import com.ltp.web.model.dto.PeopleAddRequest;
 import com.ltp.web.model.entity.PeopleEntity;
+import com.ltp.web.security.SecurityContext;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,13 @@ import lombok.NoArgsConstructor;
 public class PeopleMapper {
 
     public static PeopleEntity mapToPeople(PeopleAddRequest peopleAddRequest){
-        return new PeopleEntity(peopleAddRequest.getFullName(),
+        Long authorId = SecurityContext
+                .getInstance()
+                .getAuthenticated()
+                .get()
+                .getId();
+        return new PeopleEntity(authorId,
+                peopleAddRequest.getFullName(),
                 peopleAddRequest.getCash(),
                 false,
                 peopleAddRequest.getPhotoName());

@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS interpol.user (
 
 CREATE TABLE IF NOT EXISTS interpol.people (
     id BIGINT(255) NOT NULL AUTO_INCREMENT,
+    authorId BIGINT(255) NOT NULL,
     fullName VARCHAR(45) NOT NULL,
     cash BIGINT(255) NOT NULL,
     status TINYINT NOT NULL,
