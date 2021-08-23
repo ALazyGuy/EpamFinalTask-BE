@@ -9,6 +9,7 @@ import com.ltp.web.model.entity.UserEntity;
 import com.ltp.web.repository.UserRepository;
 import com.ltp.web.security.SecurityContext;
 import com.ltp.web.service.UserService;
+import com.ltp.web.util.PasswordUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService {
             }
 
             UserEntity userEntity = UserMapper.mapToUser(registrationRequest);
+            userEntity.setPassword(PasswordUtil.getInstance().encode(userEntity.getPassword()));
             UserRepository.getInstance().save(userEntity);
             return true;
         } catch (ConnectionPoolException | SQLException e) {
@@ -81,7 +83,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean authenticate(String email, String password) {
         Optional<UserEntity> user = getUserByEmail(email);
-        if(user.isEmpty() || !user.get().getPassword().equals(password)){
+        String userPassword = user.get().getPassword();
+        if(user.isEmpty() || !PasswordUtil.getInstance().validate(password, userPassword)){
             return false;
         }
 
