@@ -7,6 +7,7 @@ import com.ltp.web.model.entity.UserEntity;
 import com.ltp.web.repository.UserRepository;
 import com.ltp.web.service.UserService;
 import com.ltp.web.service.impl.UserServiceImpl;
+import com.ltp.web.util.PasswordUtil;
 import org.testng.AssertJUnit;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -34,11 +35,12 @@ public class UserServiceImplTest {
         UserServiceImpl.getInstance().addUser(registrationRequest);
         Optional<UserEntity> actual = UserRepository.getInstance().getByEmail("test");
 
-        if(actual.isEmpty()){
+        if(actual.isEmpty() || !PasswordUtil.getInstance().validate(expected.getPassword(), actual.get().getPassword())){
             AssertJUnit.fail();
         }
 
         expected.setId(actual.get().getId());
+        expected.setPassword(actual.get().getPassword());
 
         UserRepository.getInstance().remove(actual.get());
 
@@ -50,11 +52,12 @@ public class UserServiceImplTest {
         UserServiceImpl.getInstance().addUser(registrationRequest);
         Optional<UserEntity> actual = UserServiceImpl.getInstance().getUserByEmail(expected.getEmail());
 
-        if(actual.isEmpty()){
+        if(actual.isEmpty() || !PasswordUtil.getInstance().validate(expected.getPassword(), actual.get().getPassword())){
             AssertJUnit.fail();
         }
 
         expected.setId(actual.get().getId());
+        expected.setPassword(actual.get().getPassword());
 
         UserRepository.getInstance().remove(actual.get());
 

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
 <suite name="Services">
-    <test name="UserService">
+    <test name="Services">
         <classes>
             <class name="test.com.ltp.web.service.impl.UserServiceImplTest"></class>
+            <class name="test.com.ltp.web.service.impl.PeopleServiceImplTest"></class>
         </classes>
     </test>
-    <test name="PeopleService">
+    <test name="Utilities">
         <classes>
-            <class name="test.com.ltp.web.service.impl.PeopleServiceImplTest"></class>
+            <class name="test.com.ltp.web.util.PasswordUtilTest"></class>
         </classes>
     </test>
 </suite>

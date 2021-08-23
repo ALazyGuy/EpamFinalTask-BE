@@ -9,6 +9,7 @@ import com.ltp.web.model.entity.PeopleEntity;
 import com.ltp.web.model.entity.UserEntity;
 import com.ltp.web.repository.PeopleRepository;
 import com.ltp.web.repository.UserRepository;
+import com.ltp.web.security.SecurityContext;
 import com.ltp.web.service.impl.PeopleServiceImpl;
 import com.ltp.web.service.impl.UserServiceImpl;
 import org.testng.AssertJUnit;
@@ -28,7 +29,11 @@ public class PeopleServiceImplTest {
 
     @BeforeMethod
     public void init(){
+        UserEntity mockUser = new UserEntity();
+        mockUser.setId(1L);
+
         peopleAddRequest = new PeopleAddRequest("NAME1", 100L, "PHOTO");
+        SecurityContext.getInstance().authenticate(mockUser);
         expected = PeopleMapper.mapToPeople(peopleAddRequest);
     }
 
