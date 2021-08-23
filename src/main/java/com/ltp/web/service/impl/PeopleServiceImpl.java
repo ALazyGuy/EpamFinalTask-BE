@@ -3,8 +3,12 @@ package com.ltp.web.service.impl;
 import com.ltp.web.exception.ConnectionPoolException;
 import com.ltp.web.mapper.PeopleMapper;
 import com.ltp.web.model.dto.PeopleAddRequest;
+import com.ltp.web.model.dto.PeopleEditRequest;
 import com.ltp.web.model.entity.PeopleEntity;
+import com.ltp.web.model.entity.UserEntity;
+import com.ltp.web.model.entity.UserRole;
 import com.ltp.web.repository.PeopleRepository;
+import com.ltp.web.security.SecurityContext;
 import com.ltp.web.service.PeopleService;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -59,6 +63,23 @@ public class PeopleServiceImpl implements PeopleService {
     @Override
     public Optional<PeopleEntity> getById(Long id) throws SQLException, ConnectionPoolException {
         return PeopleRepository.getInstance().getById(id);
+    }
+
+    @Override
+    public void edit(PeopleEditRequest peopleEditRequest) throws SQLException, ConnectionPoolException {
+        Optional<PeopleEntity> people = PeopleRepository.getInstance().getById(peopleEditRequest.getPeopleId());
+        UserEntity current = SecurityContext.getInstance().getAuthenticated().get();
+
+        if(current.getRole() == UserRole.ROLE_USER
+                && (people.isEmpty() || people.get().getAuthorId() != current.getId())){
+            return;
+        }
+
+        PeopleEntity peopleEntity = people.get();
+        peopleEntity.setCash(peopleEditRequest.getCash());
+        peopleEntity.setFullName(peopleEditRequest.getFullName());
+
+        PeopleRepository.getInstance().save(peopleEntity);
     }
 
     public static PeopleServiceImpl getInstance(){
