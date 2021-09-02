@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PeopleEditRequest {
-    private Long peopleId;
+    private Long id;
     private String fullName;
     private Long cash;
 }

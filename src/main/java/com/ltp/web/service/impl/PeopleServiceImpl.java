@@ -67,7 +67,7 @@ public class PeopleServiceImpl implements PeopleService {
 
     @Override
     public void edit(PeopleEditRequest peopleEditRequest) throws SQLException, ConnectionPoolException {
-        Optional<PeopleEntity> people = PeopleRepository.getInstance().getById(peopleEditRequest.getPeopleId());
+        Optional<PeopleEntity> people = PeopleRepository.getInstance().getById(peopleEditRequest.getId());
         UserEntity current = SecurityContext.getInstance().getAuthenticated().get();
 
         if(current.getRole() == UserRole.ROLE_USER

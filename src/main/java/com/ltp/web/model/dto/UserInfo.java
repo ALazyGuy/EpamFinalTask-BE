@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class UserInfo {
+    private Long id;
     private String email;
     private String name;
     private String surname;
@@ -15,6 +16,7 @@ public class UserInfo {
     private String role;
 
     public UserInfo(UserEntity userEntity){
+        this.id = userEntity.getId();
         this.email = userEntity.getEmail();
         this.name = userEntity.getName();
         this.surname = userEntity.getSurname();

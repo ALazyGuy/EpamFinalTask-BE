@@ -28,13 +28,15 @@ public class InitializationListener implements ServletContextListener {
                     "/user/current", "/people/add",
                     "/people/getAll",
                     "/people/found", "/people/search",
-                    "/people/getById", "/people/photo"
+                    "/people/getById", "/people/photo",
+                    "/people/edit"
             });
             RolesRegistry.getInstance().create("ROLE_ADMIN", new String[]{
                     "/user/current", "/people/add",
                     "/people/remove", "/people/getAll",
                     "/people/found", "/people/search",
-                    "/people/getById", "/people/photo"
+                    "/people/getById", "/people/photo",
+                    "/people/edit"
             });
         } catch (RegistryException e) {
             LOGGER.error(String.format("Unable to create registry [%s]", e.getMessage()));
